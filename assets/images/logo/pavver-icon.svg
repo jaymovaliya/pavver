@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <title>Pavver app icon</title>
+  <desc>The Pavver app icon: a yellow rounded square with a dark map pin containing the double-V mark inside.</desc>
+  <rect width="1024" height="1024" rx="228" ry="228" fill="#FFD60A"/>
+  <path d="M512 168 C 307 168, 179 322, 179 501 C 179 706, 512 952, 512 952 C 512 952, 845 706, 845 501 C 845 322, 717 168, 512 168 Z" fill="#0A0A0F"/>
+  <path d="M333 424 L 422 681 L 512 476 L 602 681 L 691 424" stroke="#FFD60A" stroke-width="64" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+</svg>

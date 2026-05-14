@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 640" width="512" height="640">
+  <title>Pavver pin mark</title>
+  <desc>The Pavver brand mark: a dark map pin containing the double-V signature in yellow. Transparent background for use over any color.</desc>
+  <path d="M256 16 C 102 16, 16 116, 16 224 C 16 358, 256 624, 256 624 C 256 624, 496 358, 496 224 C 496 116, 410 16, 256 16 Z" fill="#0A0A0F"/>
+  <path d="M134 196 L 198 380 L 256 232 L 314 380 L 378 196" stroke="#FFD60A" stroke-width="46" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+</svg>
