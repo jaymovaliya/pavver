@@ -77,51 +77,34 @@ The map uses Mapbox with a custom dark style:
 
 ---
 
-## Screen 1 — Splash & Phone Number Entry
+## Screen 1 — Splash & Social Sign-in
 
 **Paste to Stitch:**
 
 ```
-Design a mobile splash and phone entry screen for a gamified walking app targeting 15-30 year olds.
+Design a mobile splash and social sign-in screen for a gamified walking app targeting 15-30 year olds.
 
 The screen has a dark, near-black background (#0A0A0F) with a faded, abstract map illustration behind everything at 15% opacity. The map shows curving city streets in subtle gray, with three small colored line segments highlighted — one yellow (#FFD60A), one coral (#FF453A), one sky blue (#0A84FF) — to hint at the app's territory mechanic.
 
 At the top, 80px from safe area: the wordmark "Pavver" in white, bold, 32px, centered. The double-v in "Pavver" is a key visual feature of the brand — render it as two distinct V letters touching (not as a "w"). Below the wordmark, 8px gap, smaller text in muted gray: "Walk. Claim. Repeat."
 
-Center of screen, vertically: a large playful headline in white, 36px bold, 2 lines: "Claim every street you walk."
+Center of screen, vertically: a large playful headline in white, 28-32px bold, 2 lines: "Claim every street you walk."
 
-Below headline, 32px gap: a phone number input field. Country code dropdown on left (India flag + +91 default), then the phone number field. Field background is #22222E, rounded 16px, height 56px. Placeholder text "Phone number" in #5C5C6B.
+Below headline, 32px gap: three social sign-in buttons stacked with 12px gaps. All full width minus 32px margins, 56px height, rounded-pill (radius 28).
+- Button 1: "Continue with Google" — solid WHITE background, near-black (#0A0A0F) bold 17px text, multicolor Google "G" icon (Ionicons logo-google) at left of label.
+- Button 2: "Continue with Apple" — solid DARK gray (#16161D) background, white bold 17px text, white Apple logo (Ionicons logo-apple) at left of label.
+- Button 3: "Continue with Email" — TRANSPARENT background, 1px white-ish border (#2A2A38), white bold 17px text, white envelope outline (Ionicons mail-outline) at left of label.
 
-Below input, 16px gap: primary button "Send OTP" — full width, height 56px, rounded 28px (pill), background bright yellow (#FFD60A), text near-black (#0A0A0F), bold 17px.
+At bottom, 24-32px from safe area: tiny text in muted gray (#9999A8), 12px, centered: "By continuing, you agree to our Terms and Privacy Policy" with Terms and Privacy as underlined links (no-op for v1).
 
-At bottom, 32px from safe area: tiny text in muted gray, "By continuing, you agree to our Terms and Privacy Policy" with Terms and Privacy as underlined links.
-
-Mood: playful, energetic, modern. Like a game, not a fitness app. Targets Gen Z.
+Mood: playful, energetic, modern. Like a game, not a fitness app. Targets Gen Z. No phone field — auth is purely via social providers (decision logged 2026-05-14 in docs/IDEAS_AND_GAPS.md).
 ```
 
 ---
 
-## Screen 2 — OTP Verification
+## Screen 2 — OTP Verification *(DELETED)*
 
-**Paste to Stitch:**
-
-```
-Design an OTP verification screen for a mobile app. Dark background (#0A0A0F).
-
-Top: a back arrow icon (white, 24px outlined) in top-left, 16px padding from safe area.
-
-Below back arrow, 48px gap: headline in white, 28px bold: "Enter the code"
-
-Subheadline below in muted gray (#9999A8), 16px regular: "Sent to +91 9876543210" — with the phone number in a slightly brighter shade, and a small "Edit" link in yellow (#FFD60A) inline.
-
-48px gap below: 6 large OTP input boxes side by side. Each box is 48px wide, 60px tall, background #22222E, rounded 12px, 1px border #2A2A38. Active/focused box gets a bright yellow border (#FFD60A). Numbers inside are white, 24px bold, centered.
-
-32px gap below: small text in muted gray, centered: "Didn't get the code? Resend in 0:23" — the "Resend" word is yellow when active, gray when in countdown.
-
-Bottom of screen, 32px from safe area: a primary button "Verify" — full width, height 56px, rounded pill, yellow background (#FFD60A), black text, bold. Disabled state shows the button at 30% opacity until all 6 digits are entered.
-
-Mood: clean, focused, single-task. No clutter.
-```
+**DELETED on 2026-05-14.** Auth pivoted from phone OTP to social sign-in (Google + Apple + Email). See Screen 1 above and `docs/IDEAS_AND_GAPS.md` for the decision and rationale. Screen numbering preserved so downstream references (Screen 5, Screen 7, etc.) don't shift.
 
 ---
 

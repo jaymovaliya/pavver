@@ -59,7 +59,7 @@ The app is called **Pavver** — capital P, lowercase rest. Pronounced "PAV-er" 
 **GPS tracking:** `react-native-background-geolocation` (transistorsoft, paid license ~$199 one-time, worth every rupee for Android background reliability)
 **Map matching:** Mapbox Map Matching API (`/matching/v5/mapbox/walking`)
 **Backend:** Firebase
-  - Auth: Phone OTP (Firebase Auth)
+  - Auth: **Social via Firebase Auth** — Google (`@react-native-google-signin/google-signin`), Apple (`expo-apple-authentication`), Email magic link. No phone OTP — see `docs/IDEAS_AND_GAPS.md` 2026-05-14 entry for the pivot rationale.
   - Database: Cloud Firestore
   - Push: Firebase Cloud Messaging
   - Scheduled jobs: Cloud Functions (2nd gen) + Cloud Scheduler
@@ -81,8 +81,9 @@ All collections live at root. Document IDs are auto-generated UUIDs unless noted
 ### `users/{userId}`
 ```
 {
-  userId: string (matches Firebase Auth UID)
-  phoneNumber: string
+  userId: string                      // matches Firebase Auth UID
+  email: string                       // from social provider; required
+  providerId: 'google.com' | 'apple.com' | 'password' | 'emailLink'
   displayName: string
   colorHex: string                    // user's chosen color, e.g. "#FFD60A"
   colorName: string                   // "Sunshine Yellow"
@@ -95,6 +96,8 @@ All collections live at root. Document IDs are auto-generated UUIDs unless noted
   weeklyCrownsWon: number             // lifetime count of weekly crowns
 }
 ```
+
+> Auth pivot 2026-05-14: `phoneNumber` removed; `email` + `providerId` added. See `docs/IDEAS_AND_GAPS.md`.
 
 ### `groups/{groupId}`
 ```
@@ -464,8 +467,8 @@ For 50 active POC users walking 5 times/week = 1000 walks/month = 1000 Map Match
 ### Weekend 1 — Foundation
 - React Native bare init, iOS + Android run
 - Mapbox SDK integration, render a map centered on user location
-- Firebase project, Auth (phone OTP), basic user creation
-- Onboarding screens: SplashScreen → OtpScreen → ProfileSetupScreen (name + color picker)
+- Firebase project, Auth (social: Google + Apple + Email link), basic user creation
+- Onboarding screens: SignInScreen (social providers) → ProfileSetupScreen (name + color picker)
 - Background geolocation setup, walk a route, see raw GPS points logged
 
 **Definition of done:** You can complete onboarding, then walk around the block and see a polyline drawn on the map showing where you walked. No groups yet — single-user mode only.

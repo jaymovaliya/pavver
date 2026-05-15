@@ -1,94 +1,127 @@
-import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
+import { useRouter } from 'expo-router';
+import { useCallback, useState } from 'react';
+import { StyleSheet, Text, View } from 'react-native';
 
+import { Button } from '@/components/Button';
+import { ScreenContainer } from '@/components/ScreenContainer';
+import { type SocialProvider, useUserStore } from '@/state/userStore';
 import { colors, spacing, typography } from '@/theme';
 
-/**
- * Placeholder Splash route — Foundation health check only.
- *
- * Phase G replaces this with Screen 1 (Splash + Phone Entry) from
- * `docs/DESIGN_SPEC_2.md`. For now it just verifies that:
- *   - Expo-router renders something at `/`
- *   - The `@/theme` alias resolves to `src/theme`
- *   - Dark mode looks right on a real device
- *   - SafeAreaView + base typography work end-to-end
- */
-export default function FoundationHealthCheck() {
+const ICON_SIZE = 20;
+
+export default function SignInScreen() {
+  const router = useRouter();
+  const signInWith = useUserStore((s) => s.signInWith);
+  const [loadingProvider, setLoadingProvider] = useState<SocialProvider | null>(null);
+
+  const handleSocial = useCallback(
+    async (provider: SocialProvider) => {
+      if (loadingProvider != null) return;
+      setLoadingProvider(provider);
+      try {
+        await signInWith(provider);
+        // AuthGate navigates to /profile-setup once status flips to 'authenticated'.
+      } catch {
+        // userStore already logged the error and reset status to 'idle'.
+      } finally {
+        setLoadingProvider(null);
+      }
+    },
+    [loadingProvider, signInWith],
+  );
+
+  const handleEmail = useCallback(() => {
+    if (loadingProvider != null) return;
+    router.push('/email-signin');
+  }, [loadingProvider, router]);
+
+  const anyLoading = loadingProvider != null;
+
   return (
-    <SafeAreaView style={styles.safe}>
-      <View style={styles.content}>
-        <Text style={[typography.overline, styles.overline]}>FOUNDATION CHECK</Text>
-        <Text style={[typography.h1, styles.headline]}>Pavver</Text>
-        <Text style={[typography.body, styles.tagline]}>Walk. Claim. Repeat.</Text>
+    <ScreenContainer>
+      <View style={styles.brand}>
+        <Text style={[typography.h1, styles.wordmark]}>Pavver</Text>
+        <Text style={[typography.bodySmall, styles.tagline]}>Walk. Claim. Repeat.</Text>
+      </View>
 
-        <View style={styles.divider} />
+      <View style={styles.headlineWrap}>
+        <Text style={[typography.h2, styles.headline]}>Claim every street{'\n'}you walk.</Text>
+      </View>
 
-        <Text style={[typography.bodySmall, styles.body]}>
-          If you can see this on your device, Phase A + B landed cleanly:
-        </Text>
-        <Text style={[typography.bodySmall, styles.bullet]}>• expo-router boots</Text>
-        <Text style={[typography.bodySmall, styles.bullet]}>• theme tokens resolve via @/theme</Text>
-        <Text style={[typography.bodySmall, styles.bullet]}>• dark background renders edge-to-edge</Text>
-        <Text style={[typography.bodySmall, styles.bullet]}>• bundle id + scheme are app.pavver.client / pavver://</Text>
+      <View style={styles.buttons}>
+        <Button
+          label="Continue with Google"
+          onPress={() => handleSocial('google')}
+          variant="socialLight"
+          loading={loadingProvider === 'google'}
+          disabled={anyLoading && loadingProvider !== 'google'}
+          leftIcon={<Ionicons name="logo-google" size={ICON_SIZE} color={colors.bg.primary} />}
+        />
+        <Button
+          label="Continue with Apple"
+          onPress={() => handleSocial('apple')}
+          variant="socialDark"
+          loading={loadingProvider === 'apple'}
+          disabled={anyLoading && loadingProvider !== 'apple'}
+          leftIcon={<Ionicons name="logo-apple" size={ICON_SIZE} color={colors.text.primary} />}
+        />
+        <Button
+          label="Continue with Email"
+          onPress={handleEmail}
+          variant="outline"
+          disabled={anyLoading}
+          leftIcon={<Ionicons name="mail-outline" size={ICON_SIZE} color={colors.text.primary} />}
+        />
+      </View>
 
-        <View style={styles.swatchRow}>
-          <View style={[styles.swatch, { backgroundColor: colors.user.sunshine }]} />
-          <View style={[styles.swatch, { backgroundColor: colors.user.coral }]} />
-          <View style={[styles.swatch, { backgroundColor: colors.user.mint }]} />
-          <View style={[styles.swatch, { backgroundColor: colors.user.sky }]} />
-          <View style={[styles.swatch, { backgroundColor: colors.user.lavender }]} />
-          <View style={[styles.swatch, { backgroundColor: colors.user.hotPink }]} />
-        </View>
-        <Text style={[typography.caption, styles.caption]}>
-          The six territory colors (Phase G uses these in the color picker)
+      <View style={styles.footer}>
+        <Text style={[typography.caption, styles.footerText]}>
+          By continuing, you agree to our{' '}
+          <Text style={styles.footerLink}>Terms</Text>
+          {' '}and{' '}
+          <Text style={styles.footerLink}>Privacy Policy</Text>
         </Text>
       </View>
-    </SafeAreaView>
+    </ScreenContainer>
   );
 }
 
 const styles = StyleSheet.create({
-  safe: {
-    flex: 1,
-    backgroundColor: colors.bg.primary,
+  brand: {
+    marginTop: spacing.massive,
+    alignItems: 'center',
+    gap: spacing.sm,
   },
-  content: {
-    flex: 1,
-    paddingHorizontal: spacing.base,
-    paddingTop: spacing.xxl,
-    gap: spacing.md,
-  },
-  overline: {
-    color: colors.text.tertiary,
-  },
-  headline: {
+  wordmark: {
     color: colors.text.primary,
   },
   tagline: {
-    color: colors.accent.brand,
-  },
-  divider: {
-    height: 1,
-    backgroundColor: colors.border.default,
-    marginVertical: spacing.lg,
-  },
-  body: {
     color: colors.text.secondary,
   },
-  bullet: {
-    color: colors.text.secondary,
-    paddingLeft: spacing.sm,
+  headlineWrap: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
-  swatchRow: {
-    flexDirection: 'row',
+  headline: {
+    color: colors.text.primary,
+    textAlign: 'center',
+  },
+  buttons: {
     gap: spacing.md,
-    marginTop: spacing.xl,
+    marginBottom: spacing.xl,
   },
-  swatch: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
+  footer: {
+    alignItems: 'center',
+    marginBottom: spacing.lg,
   },
-  caption: {
+  footerText: {
     color: colors.text.tertiary,
+    textAlign: 'center',
+  },
+  footerLink: {
+    color: colors.text.tertiary,
+    textDecorationLine: 'underline',
   },
 });

@@ -57,9 +57,9 @@ Match the tech spec's weekend order. Don't skip ahead.
 - [ ] Build a custom dev client (`npx expo prebuild` + EAS dev build, or local `expo run:ios` / `run:android`) — Expo Go is NOT used on this project
 - [ ] Wire Inter fonts into `app/_layout.tsx`; gate render on `fontsLoaded`; force dark mode and dark status bar
 - [ ] Initialize Firebase via `@react-native-firebase/app` in `src/services/firebase.ts` (config files live in `ios/` and `android/`, untracked)
-- [ ] Screen 1 — Splash & Phone Entry (`app/index.tsx`)
-- [ ] Screen 2 — OTP Verification (`app/otp.tsx`)
+- [ ] Screen 1 — Splash & Social Sign-in, Google/Apple/Email buttons (`app/index.tsx`) — see `docs/IDEAS_AND_GAPS.md` 2026-05-14 entry for the auth pivot
 - [ ] Screen 3 — Profile Setup, name + color picker (`app/profile-setup.tsx`)
+  - Screen 2 (OTP) DELETED 2026-05-14 — auth switched from phone OTP to social.
 - [ ] Basic GPS tracking via `expo-location` (foreground only this weekend)
 - [ ] `@rnmapbox/maps` integration: dark map style centered on user location
 - [ ] Draw a polyline on the map from recorded GPS points

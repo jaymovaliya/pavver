@@ -22,9 +22,9 @@ If your current task is a UI screen → re-read the relevant screen section in `
 ## Tech stack (non-negotiable for the POC)
 
 - React Native via **Expo** (managed workflow, NOT bare workflow)
-- **Custom dev client from day one, NOT Expo Go.** Phone OTP via `@react-native-firebase/auth` and Mapbox both require native modules that Expo Go doesn't ship. Don't try to make Expo Go work.
+- **Custom dev client from day one, NOT Expo Go.** Social sign-in (Google, Apple), `@react-native-firebase/*`, and Mapbox all need native modules that Expo Go doesn't ship. Don't try to make Expo Go work.
 - TypeScript everywhere, strict mode
-- Firebase via **`@react-native-firebase/*` native modules**, NOT the `firebase` JS SDK. Modules in use: `app`, `auth`, `firestore`, `functions`, `messaging`.
+- Firebase via **`@react-native-firebase/*` native modules**, NOT the `firebase` JS SDK. Modules in use: `app`, `auth`, `firestore`, `functions`, `messaging`. Auth providers: **Google + Apple + Email magic link** via Firebase Auth — no phone OTP (see `docs/IDEAS_AND_GAPS.md` 2026-05-14 entry). Google sign-in needs `@react-native-google-signin/google-signin`; Apple needs `expo-apple-authentication`.
 - Maps: `@rnmapbox/maps` (Mapbox SDK), wired via its config plugin in `app.config.ts`
 - GPS: `expo-location` for foreground tracking; background tracking via `expo-task-manager` + `expo-location` background updates
 - State: **Zustand**, NOT Redux, NOT React Context for app state
@@ -110,9 +110,9 @@ Standard gap between major sections: 24px or 32px.
 ```
 app/                  Expo-router file-based routes — ALL screens live here
   _layout.tsx         root layout: fonts, auth gate, dark status bar
-  index.tsx           Screen 1: Splash & phone entry
-  otp.tsx             Screen 2: OTP verification
+  index.tsx           Screen 1: Splash & social sign-in (Google / Apple / Email)
   profile-setup.tsx   Screen 3: name + color picker
+                      (Screen 2 OTP was REMOVED on 2026-05-14 — see docs/IDEAS_AND_GAPS.md)
   (onboarding)/       group create/join flow (Screens 4, 4a, 4b, 4c — route group, no URL segment)
   (tabs)/             post-onboarding tabs: HomeMap (5), Group (9), Profile (11)
   walk/               walk-in-progress (6) and summary (7)
